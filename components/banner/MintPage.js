@@ -178,7 +178,7 @@ const MintPage = () => {
     <>
       <div className="static-slider-head banner2">
         <Container>
-          <Row className="" style={{ paddingTop: "120px", paddingBottom: "100px" }}>
+          <Row className="" style={{ paddingTop: "60px", paddingBottom: "100px" }}>
             {(!currentUseState.isConnected) ?
               <>
                 <Col lg="6" md="6" className="align-self-center">
@@ -218,7 +218,7 @@ const MintPage = () => {
                         <br />
                         Eth Balance : <strong>{currentUseState.xmPower.theBalance}</strong>
                         <br />
-                        Contract : <strong>{process.env.contractAddress}</strong>
+                        Contract : <strong><Link href={process.env.blockExplorerURL + "token/"  + process.env.contractAddress}>{process.env.contractAddress}</Link></strong>
                         <br />
                       </p>
                       {eventData}
