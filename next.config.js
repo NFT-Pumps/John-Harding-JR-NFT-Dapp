@@ -4,7 +4,7 @@ module.exports = {
   reactStrictMode: false,
   analyticsId: '7vsHWbYwcKpA3lFTng2Qe9iNzE7',
   env: {
-    siteTitle: "The Monster Community Minting Dapp",
+    siteTitle: "The John Harding Jr Ticket Dapp",
     contractAddress: "0xc9c675ca9e27f1de9d84f9510b6c12280ab46ca8",
     infuraID: "045e9c65387a4200aa8559c347fa19a4",
     defaultGas: 125000,//75000,

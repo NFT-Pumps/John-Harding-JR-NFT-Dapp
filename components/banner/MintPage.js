@@ -103,9 +103,9 @@ const MintPage = () => {
       for (let element of currentUseState.thisContractData.events) {
         const row = (
           <tr key={element.eventID}>
-            <td key={1}>{element.title}</td>
-            <td key={2}>{new Date(element.startMint * 1000).toLocaleDateString("en-US")}</td>
-            <td key={3}>{new Date(element.endMint * 1000).toLocaleDateString("en-US")}</td>
+            <td key={1}>{element.title} (
+            {new Date(element.startMint * 1000).toLocaleDateString("en-US")} - 
+            {new Date(element.endMint * 1000).toLocaleDateString("en-US")})</td>
             <td key={4}>
               {element.noOfGeneralMints - element.generalMinted} Tickets Left
               <br></br>
@@ -127,9 +127,7 @@ const MintPage = () => {
     return (<table className="table table-dark table-bordered">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Sale Starts</th>
-          <th>Sale Ends</th>
+          <th>Event</th>        
           <th>General Admission</th>
           <th>Ring Side</th>
           <th>Mint NFT Ticket</th>
@@ -155,11 +153,11 @@ const MintPage = () => {
             <input type="text" id="mints" name="mints" className="form-control dappbtn mr-1 " value={mintNum} min="1" max={process.env.maxMintCount} onChange={handleChange} readOnly />
           </div>
           <div className="input-group-prepend">
-            <button className="btn btn-outline-primary dappbtn" type="button" onClick={incNum}>+</button>
+            <button className="btn btn-outline-primary dappbtn mr-1 " type="button" onClick={incNum}>+</button>
           </div>
           <div className="input-group-prepend">
             <Link href="">
-              <a className="btn btn-success btn-outline-light ml-1 mr-1" onClick={() => mintCall({ eventID: eventID, mint: mintNum })}>
+              <a className="btn btn-success btn-outline-light mr-1" onClick={() => mintCall({ eventID: eventID, mint: mintNum })}>
                 General
               </a>
             </Link>

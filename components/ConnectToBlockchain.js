@@ -494,7 +494,7 @@ export default function ConnectToBlockchain(e) {
         return (
             <>
                 <div style={{ backgroundColor: "RGB(255,255,255,0.7)", padding: "5px" }}>
-                    <table><thead><tr><th>Mint Transaction Link</th></tr></thead><tbody>{loaded ? resultData : <tr><td colSpan="3">Loading</td></tr>}</tbody></table>
+                    <table className="table table-dark table-bordered"><thead><tr><th>Mint Transaction Link</th></tr></thead><tbody>{loaded ? resultData : <tr><td colSpan="3">Loading</td></tr>}</tbody></table>
                 </div>
             </>
         )
