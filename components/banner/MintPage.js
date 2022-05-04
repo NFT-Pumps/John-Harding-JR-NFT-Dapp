@@ -101,21 +101,21 @@ const MintPage = () => {
             <td key={1}>{element.title}</td>
             <td key={2}>{new Date(element.startMint * 1000).toLocaleDateString("en-US")}</td>
             <td key={3}>{new Date(element.endMint * 1000).toLocaleDateString("en-US")}</td>
-            <td key={4}>
-              {getMintControls(decNum, mintNum, handleChange, incNum, SendMint)}
-              <br></br>
+            <td key={4}>            
               {element.noOfGeneralMints - element.generalMinted} Tickets Left
             </td>
-            <td key={5}>{getMintControls(decNum, mintNum, handleChange, incNum, SendMint)}
-            <br></br>
+            <td key={5}>
               {element.noOfRingSideMints - element.ringsideMinted} Tickets Left
+            </td>
+            <td key={5}>
+            {getMintControls(decNum, mintNum, handleChange, incNum, SendMint)}
             </td>
           </tr>
         );
         itemRows.push(row);
       }
     }
-    return (<table class="table table-dark table-bordered">
+    return (<table className="table table-dark table-bordered">
       <thead>
         <tr>
           <th>Title</th>
@@ -123,6 +123,7 @@ const MintPage = () => {
           <th>Sale Ends</th>
           <th>General Admission</th>
           <th>Ring Side</th>
+          <th>Mint NFT Ticket</th>
         </tr>
       </thead>
       <tbody>
@@ -139,18 +140,23 @@ const MintPage = () => {
       <div className="">
         <div className="input-group">
           <div className="input-group-prepend">
-            <button className="btn btn-outline-primary" type="button" onClick={decNum}>-</button>
+            <button className="btn btn-outline-primary dappbtn mr-1" type="button" onClick={decNum}>-</button>
+          </div>
+          <div className="input-group-prepend" style={{width: "50px"}}>
+            <input type="text" id="mints" name="mints" className="form-control dappbtn mr-1 " value={mintNum} min="1" max={process.env.maxMintCount} onChange={handleChange} readOnly />
           </div>
           <div className="input-group-prepend">
-            <input type="number" id="mints" name="mints" className="form-control" value={mintNum} min="1" max={process.env.maxMintCount} onChange={handleChange} />
-          </div>
-          <div className="input-group-prepend">
-            <button className="btn btn-outline-primary" type="button" onClick={incNum}>+</button>
+            <button className="btn btn-outline-primary dappbtn" type="button" onClick={incNum}>+</button>
           </div>
           <div className="input-group-prepend">
             <Link href="">
-              <a className="btn btn-success btn-outline-dark " onClick={() => mintCall({ mint: mintNum })}>
-                Mint
+              <a className="btn btn-success btn-outline-light ml-1 mr-1" onClick={() => mintCall({ mint: mintNum })}>
+                General
+              </a>
+            </Link>
+            <Link href="">
+              <a className="btn btn-info btn-outline-light" onClick={() => mintCall({ mint: mintNum })}>
+                Ring Side 
               </a>
             </Link>
           </div>
