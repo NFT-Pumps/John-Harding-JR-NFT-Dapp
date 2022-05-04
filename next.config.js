@@ -5,7 +5,7 @@ module.exports = {
   analyticsId: '7vsHWbYwcKpA3lFTng2Qe9iNzE7',
   env: {
     siteTitle: "The John Harding Jr Ticket Dapp",
-    contractAddress: "0xc9c675ca9e27f1de9d84f9510b6c12280ab46ca8",
+    contractAddress: "0xb13C8ACfAa874AA4901731538bdf3d7e3F20a8B3",
     infuraID: "045e9c65387a4200aa8559c347fa19a4",
     defaultGas: 125000,//75000,
     mintType : "Pre-Sale", //Pre-Sale Public
