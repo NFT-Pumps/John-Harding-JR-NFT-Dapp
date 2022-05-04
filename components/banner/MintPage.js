@@ -57,7 +57,7 @@ const MintPage = () => {
   }
 
   async function ringSideMint(props) {
-    
+
     if (mintNum > 0) {
       const returnedhash = await walletBridge1.ringSideMint(props);
     }
@@ -106,18 +106,18 @@ const MintPage = () => {
             <td key={1}>{element.title}</td>
             <td key={2}>{new Date(element.startMint * 1000).toLocaleDateString("en-US")}</td>
             <td key={3}>{new Date(element.endMint * 1000).toLocaleDateString("en-US")}</td>
-            <td key={4}>            
+            <td key={4}>
               {element.noOfGeneralMints - element.generalMinted} Tickets Left
               <br></br>
-              Mint Cost : <strong>{process.env.GeneralAdmissionEth} ETH</strong>
+              Cost : <strong>{process.env.GeneralAdmissionEth} ETH</strong>
             </td>
             <td key={5}>
               {element.noOfRingSideMints - element.ringsideMinted} Tickets Left
               <br></br>
-              Mint Cost : <strong>{process.env.RingSideEth} ETH</strong>                        
+              Cost : <strong>{process.env.RingSideEth} ETH</strong>
             </td>
             <td key={5}>
-            {getMintControls(element.eventID, decNum, mintNum, handleChange, incNum, generalAdmissionMint, ringSideMint)}
+              {getMintControls(element.eventID, decNum, mintNum, handleChange, incNum, generalAdmissionMint, ringSideMint)}
             </td>
           </tr>
         );
@@ -151,7 +151,7 @@ const MintPage = () => {
           <div className="input-group-prepend">
             <button className="btn btn-outline-primary dappbtn mr-1" type="button" onClick={decNum}>-</button>
           </div>
-          <div className="input-group-prepend" style={{width: "50px"}}>
+          <div className="input-group-prepend" style={{ width: "50px" }}>
             <input type="text" id="mints" name="mints" className="form-control dappbtn mr-1 " value={mintNum} min="1" max={process.env.maxMintCount} onChange={handleChange} readOnly />
           </div>
           <div className="input-group-prepend">
@@ -159,13 +159,13 @@ const MintPage = () => {
           </div>
           <div className="input-group-prepend">
             <Link href="">
-              <a className="btn btn-success btn-outline-light ml-1 mr-1" onClick={() => mintCall({ eventID : eventID, mint: mintNum })}>
+              <a className="btn btn-success btn-outline-light ml-1 mr-1" onClick={() => mintCall({ eventID: eventID, mint: mintNum })}>
                 General
               </a>
             </Link>
             <Link href="">
-              <a className="btn btn-info btn-outline-light" onClick={() => mintCall2({ eventID : eventID, mint: mintNum })}>
-                Ring Side 
+              <a className="btn btn-info btn-outline-light" onClick={() => mintCall2({ eventID: eventID, mint: mintNum })}>
+                Ring Side
               </a>
             </Link>
           </div>
@@ -178,9 +178,10 @@ const MintPage = () => {
     <>
       <div className="static-slider-head banner2">
         <Container>
-          <Row className="" style={{ paddingTop: "60px", paddingBottom: "100px" }}>
-            {(!currentUseState.isConnected) ?
-              <>
+
+          {(!currentUseState.isConnected) ?
+            <>
+              <Row className="" style={{ paddingTop: "1px", paddingBottom: "100px" }}>
                 <Col lg="6" md="6" className="align-self-center">
                   {(process.env.network == "rinkeby") ? <h3 style={{ color: "#fff" }}>DEMO ONLY RINKEBY</h3> : ""}
                   <h3 className="title">
@@ -207,44 +208,46 @@ const MintPage = () => {
                     <Image src={bannerimg} alt="Monster Window" />
                   </div>
                 </Col>
-              </> :
-              <Col lg="12" md="12" className="align-self-center">
-                <>
-                  {(currentUseState.isPublicMintIsOpen) ?
-                    <>
-                      <br />
-                      <p className="connected" style={{ backgroundColor: "RGB(0,0,0,0.5)", padding: "5px" }}>                       
-                        Wallet address: <strong>{currentUseState.xmPower.filteredAddress}</strong>
+              </Row>
+            </> :
+            <>
+              <Row className="" style={{ paddingTop: "70px", paddingBottom: "100px" }}>
+                <Col lg="12" md="12" className="align-self-center">
+                  <>
+                    {(currentUseState.isPublicMintIsOpen) ?
+                      <>
                         <br />
-                        Eth Balance : <strong>{currentUseState.xmPower.theBalance}</strong>
+                        <p className="connected" style={{ backgroundColor: "RGB(0,0,0,0.5)", padding: "5px" }}>
+                          Wallet address: <strong><Link href={process.env.blockExplorerURL + "address/" + currentUseState.xmPower.connectedWalletAddress}>{currentUseState.xmPower.filteredAddress}</Link></strong>
+                          <br />
+                          Balance : <strong>{(+currentUseState.xmPower.theBalance).toFixed(4)} Ether</strong>
+                          <br />
+                          Contract : <strong><Link href={process.env.blockExplorerURL + "token/" + process.env.contractAddress}>{process.env.contractAddress}</Link></strong>
+                          <br />
+                        </p>
+                        {eventData}
+                        <a
+                          onClick={() => walletBridge1.disconnect()}
+                          className="btn btn-md m-t-30 btn-outline-light "
+                        >
+                          Disconnect Wallet
+                        </a>
                         <br />
-                        Contract : <strong><Link href={process.env.blockExplorerURL + "token/"  + process.env.contractAddress}>{process.env.contractAddress}</Link></strong>
                         <br />
-                      </p>
-                      {eventData}
-                      <a
-                        onClick={() => walletBridge1.disconnect()}
-                        className="btn btn-md m-t-30 btn-outline-light "
-                      >
-                        Disconnect Wallet
-                      </a>
-                      <br />
-                      <br />
-                      {/* <h4 className="subtitle font-light">
+                        {/* <h4 className="subtitle font-light">
                         NFT&apos;s minted {currentUseState.numMinted} of {process.env.maxMint}
                       </h4> */}
-                      <br />
-                      {currentUseState.hashHtml}
-                    </>
-                    :
-                    <h1 className="subtitle font-light">Public mint is currently closed!</h1>
-                  }
-                </>
-              </Col>
-            }
-          </Row>
-
-
+                        <br />
+                        {currentUseState.hashHtml}
+                      </>
+                      :
+                      <h1 className="subtitle font-light">Public mint is currently closed!</h1>
+                    }
+                  </>
+                </Col>
+              </Row>
+            </>
+          }
         </Container>
       </div>
     </>
