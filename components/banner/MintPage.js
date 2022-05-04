@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container, Row, Col } from "reactstrap";
 import Image from "next/image";
 import bannerimg from "../../assets/images/landingpage/banner-img.png";
-import NFTWalletBridge from '../nftWalletBridge'
+import ConnectToBlockchain from '../ConnectToBlockchain'
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 
@@ -43,9 +43,10 @@ const MintPage = () => {
   };
 
   let dappParams = { bridgeParams: bridgeParams, mintType: "Public" }
-  let walletBridge1 = NFTWalletBridge(dappParams);
+  let walletBridge1 = ConnectToBlockchain(dappParams);
 
   let currentUseState = walletBridge1.getUseStates();
+
 
   async function SendMint(props) {
 
@@ -85,36 +86,114 @@ const MintPage = () => {
     }
   }
 
-  let newValue = dappParams.mintType == "Public" ? process.env.ethValue : process.env.ethWLValue;
+  let newValue = dappParams.mintType == "Public" ? process.env.GeneralAdmissionEth : process.env.RingSideEth;
+
+  let itemRows = [];
+
+  function eventFetchedData() {
+    itemRows = [];
+    if (currentUseState && currentUseState.thisContractData && currentUseState.thisContractData.events) {
+
+      console.log(currentUseState.thisContractData.events);
+      for (let element of currentUseState.thisContractData.events) {
+        const row = (
+          <tr key={element.eventID}>
+            <td key={1}>{element.title}</td>
+            <td key={2}>{new Date(element.startMint * 1000).toLocaleDateString("en-US")}</td>
+            <td key={3}>{new Date(element.endMint * 1000).toLocaleDateString("en-US")}</td>
+            <td key={4}>
+              {getMintControls(decNum, mintNum, handleChange, incNum, SendMint)}
+              <br></br>
+              {element.noOfGeneralMints - element.generalMinted} Tickets Left
+            </td>
+            <td key={5}>{getMintControls(decNum, mintNum, handleChange, incNum, SendMint)}
+            <br></br>
+              {element.noOfRingSideMints - element.ringsideMinted} Tickets Left
+            </td>
+          </tr>
+        );
+        itemRows.push(row);
+      }
+    }
+    return (<table class="table table-dark table-bordered">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Sale Starts</th>
+          <th>Sale Ends</th>
+          <th>General Admission</th>
+          <th>Ring Side</th>
+        </tr>
+      </thead>
+      <tbody>
+        {itemRows}
+      </tbody>
+    </table>)
+  }
+
+  const eventData = eventFetchedData(currentUseState.thisContractData.events)
+
+  function getMintControls(decNum, mintNum, handleChange, incNum, mintCall) {
+    return <>
+      <label className="connected">Number to mint (1-{process.env.maxMintCount}):</label>
+      <div className="">
+        <div className="input-group">
+          <div className="input-group-prepend">
+            <button className="btn btn-outline-primary" type="button" onClick={decNum}>-</button>
+          </div>
+          <div className="input-group-prepend">
+            <input type="number" id="mints" name="mints" className="form-control" value={mintNum} min="1" max={process.env.maxMintCount} onChange={handleChange} />
+          </div>
+          <div className="input-group-prepend">
+            <button className="btn btn-outline-primary" type="button" onClick={incNum}>+</button>
+          </div>
+          <div className="input-group-prepend">
+            <Link href="">
+              <a className="btn btn-success btn-outline-dark " onClick={() => mintCall({ mint: mintNum })}>
+                Mint
+              </a>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>;
+  }
 
   return (
     <>
       <div className="static-slider-head banner2">
         <Container>
-          <Row className="">
+          <Row className="" style={{ paddingTop: "120px", paddingBottom: "100px" }}>
             {(!currentUseState.isConnected) ?
-              <Col lg="6" md="6" className="align-self-center">
-                {(currentUseState.network == "rinkeby") ? <h3 style={{ color: "#fff" }}>DEMO ONLY RINKEBY</h3> : ""}
-                <h3 className="title">
-                  NFT Tickets to John Harding JR Boxing.
-                </h3>
-                <h4 className="subtitle font-light">
-                  Exclusive NFT Tickets to Boxing Events.
-                  <br />
-                </h4>
-                <a
-                  onClick={() => walletBridge1.showWeb3Modal()}
-                  className="btn btn-success m-r-20 btn-md m-t-30 " style={{ backgroundColor: "#C2C2C2" }}
-                >
-                  Connect Wallet
-                </a>
-                <Link href={process.env.mainWWW}>
-                  <a className="btn btn-md m-t-30  btn-outline-light " style={{ backgroundColor: "#760680" }}>
-                    Back Home
+              <>
+                <Col lg="6" md="6" className="align-self-center">
+                  {(process.env.network == "rinkeby") ? <h3 style={{ color: "#fff" }}>DEMO ONLY RINKEBY</h3> : ""}
+                  <h3 className="title">
+                    NFT Tickets to John Harding JR Boxing.
+                  </h3>
+                  <h4 className="subtitle font-light">
+                    Exclusive NFT Tickets to Boxing Events.
+                    <br />
+                  </h4>
+                  <a
+                    onClick={() => walletBridge1.showWeb3Modal()}
+                    className="btn btn-success m-r-20 btn-md m-t-30 " style={{ backgroundColor: "#C2C2C2" }}
+                  >
+                    Connect Wallet
                   </a>
-                </Link>
-              </Col> :
-              <Col lg="6" md="6" className="align-self-center">
+                  <Link href={process.env.mainWWW}>
+                    <a className="btn btn-md m-t-30  btn-outline-light " style={{ backgroundColor: "#760680" }}>
+                      Back Home
+                    </a>
+                  </Link>
+                </Col>
+                <Col lg="6" md="6" >
+                  <div style={{ paddingTop: "120px", paddingBottom: "100px" }}>
+                    <Image src={bannerimg} alt="Monster Window" />
+                  </div>
+                </Col>
+              </> :
+              <Col lg="12" md="12" className="align-self-center">
                 <>
                   {(currentUseState.isPublicMintIsOpen) ?
                     <>
@@ -129,29 +208,7 @@ const MintPage = () => {
                         Contract : <strong>{process.env.contractAddress}</strong>
                         <br />
                       </p>
-                      {(process.env.enforceWhitelist == false || currentUseState.xmPower.isWhiteListed == true) ?
-                        <>
-                          <label className="connected">Number to mint (1-{process.env.maxMintCount}):</label>
-                          <div className="">
-                            <div className="input-group">
-                              <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" onClick={decNum}>-</button>
-                              </div>
-                              <div className="input-group-prepend">
-                                <input type="number" id="mints" name="mints" className="form-control" value={mintNum} min="1" max={process.env.maxMintCount} onChange={handleChange} />
-                              </div>
-                              <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" onClick={incNum}>+</button>
-                              </div>
-                            </div>
-                          </div>
-                          <Link href="">
-                            <a className="btn btn-success m-r-20 btn-md m-t-30 btn-outline-dark " onClick={() => SendMint({ mint: mintNum })}>
-                              Mint
-                            </a>
-                          </Link>
-                        </>
-                        : <h1>You are not on the whitelist</h1>}
+                      {eventData}
                       <a
                         onClick={() => walletBridge1.disconnect()}
                         className="btn btn-md m-t-30 btn-outline-light "
@@ -160,9 +217,9 @@ const MintPage = () => {
                       </a>
                       <br />
                       <br />
-                      <h4 className="subtitle font-light">
+                      {/* <h4 className="subtitle font-light">
                         NFT&apos;s minted {currentUseState.numMinted} of {process.env.maxMint}
-                      </h4>
+                      </h4> */}
                       <br />
                       {currentUseState.hashHtml}
                     </>
@@ -172,12 +229,9 @@ const MintPage = () => {
                 </>
               </Col>
             }
-            <Col lg="6" md="6" >
-              <div style={{ paddingTop: "120px", paddingBottom: "100px" }}>
-                <Image src={bannerimg} alt="Monster Window" />
-              </div>
-            </Col>
           </Row>
+
+
         </Container>
       </div>
     </>
@@ -185,3 +239,5 @@ const MintPage = () => {
 };
 
 export default MintPage;
+
+

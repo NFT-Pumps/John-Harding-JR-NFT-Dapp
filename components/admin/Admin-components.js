@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container, Row, Col } from "reactstrap";
 import Image from "next/image";
 import bannerimg from "../../assets/images/landingpage/monster.gif";
-import NFTWalletBridge from '../nftWalletBridge'
+import ConnectToBlockchain from '../ConnectToBlockchain'
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 const AdminComponents = () => {
@@ -42,7 +42,7 @@ const AdminComponents = () => {
   };
 
   let dappParams = { bridgeParams: bridgeParams }
-  let walletBridge1 = NFTWalletBridge(dappParams);
+  let walletBridge1 = ConnectToBlockchain(dappParams);
 
   let currentUseState = walletBridge1.getUseStates();
 
@@ -79,7 +79,7 @@ const AdminComponents = () => {
 
   let displayData = true ? walletBridge1.getUseStates().hash : "Loading!" //(<ul>{resultData}</ul>)
 
-  let newValue = process.env.mintType == "Public" ? process.env.ethValue : process.env.ethWLValue;
+  let newValue = process.env.mintType == "Public" ? process.env.GeneralAdmissionEth : process.env.RingSideEth;
 
   let [revealVal, setRevealVal] = useState("false");
   function handleOnChange(e) {

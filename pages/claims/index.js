@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Container, Row, Col } from "reactstrap";
 import Image from "next/image";
 import bannerimg from "../../assets/images/landingpage/monster.gif"
-import NFTWalletBridge from '../../components/nftWalletBridge.js'
+import ConnectToBlockchain from '../../components/ConnectToBlockchain.js'
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Whitelist from "../../components/Whitelist";
 import { ethers } from "ethers";
@@ -35,7 +35,7 @@ export default function Claim() {
   };
 
   let dappParams = { bridgeParams: bridgeParams, mintType: "Pre-Sale" }
-  let walletBridge1 = NFTWalletBridge(dappParams);
+  let walletBridge1 = ConnectToBlockchain(dappParams);
 
   let currentUseState = walletBridge1.getUseStates();
 
@@ -83,7 +83,7 @@ export default function Claim() {
     }
   }
 
-  let newValue = process.env.mintType == "Public" ? process.env.ethValue : process.env.ethWLValue;
+  let newValue = process.env.mintType == "Public" ? process.env.GeneralAdmissionEth : process.env.RingSideEth;
 
   const whitelist = Whitelist();
 
