@@ -42,7 +42,7 @@ export default function Claim() {
   async function SendMint(props) {
     props.mintType = "Pre-Sale";
     if (mintNum > 0) {
-      const returnedhash = await walletBridge1.sendMint(props);
+      const returnedhash = await walletBridge1.generalAdmissionMint(props);
     }
     setNum(0)
     if (process.env.debug) {

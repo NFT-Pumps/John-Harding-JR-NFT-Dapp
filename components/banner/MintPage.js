@@ -48,11 +48,18 @@ const MintPage = () => {
   let currentUseState = walletBridge1.getUseStates();
 
 
-  async function SendMint(props) {
+  async function generalAdmissionMint(props) {
 
-    props.mintType = "Public";
     if (mintNum > 0) {
-      const returnedhash = await walletBridge1.sendMint(props);
+      const returnedhash = await walletBridge1.generalAdmissionMint(props);
+    }
+    // setNum(0)
+  }
+
+  async function ringSideMint(props) {
+    
+    if (mintNum > 0) {
+      const returnedhash = await walletBridge1.ringSideMint(props);
     }
     // setNum(0)
   }
@@ -86,8 +93,6 @@ const MintPage = () => {
     }
   }
 
-  let newValue = dappParams.mintType == "Public" ? process.env.GeneralAdmissionEth : process.env.RingSideEth;
-
   let itemRows = [];
 
   function eventFetchedData() {
@@ -103,12 +108,16 @@ const MintPage = () => {
             <td key={3}>{new Date(element.endMint * 1000).toLocaleDateString("en-US")}</td>
             <td key={4}>            
               {element.noOfGeneralMints - element.generalMinted} Tickets Left
+              <br></br>
+              Mint Cost : <strong>{process.env.GeneralAdmissionEth} ETH</strong>
             </td>
             <td key={5}>
               {element.noOfRingSideMints - element.ringsideMinted} Tickets Left
+              <br></br>
+              Mint Cost : <strong>{process.env.RingSideEth} ETH</strong>                        
             </td>
             <td key={5}>
-            {getMintControls(decNum, mintNum, handleChange, incNum, SendMint)}
+            {getMintControls(element.eventID, decNum, mintNum, handleChange, incNum, generalAdmissionMint, ringSideMint)}
             </td>
           </tr>
         );
@@ -134,7 +143,7 @@ const MintPage = () => {
 
   const eventData = eventFetchedData(currentUseState.thisContractData.events)
 
-  function getMintControls(decNum, mintNum, handleChange, incNum, mintCall) {
+  function getMintControls(eventID, decNum, mintNum, handleChange, incNum, mintCall, mintCall2) {
     return <>
       <label className="connected">Number to mint (1-{process.env.maxMintCount}):</label>
       <div className="">
@@ -150,12 +159,12 @@ const MintPage = () => {
           </div>
           <div className="input-group-prepend">
             <Link href="">
-              <a className="btn btn-success btn-outline-light ml-1 mr-1" onClick={() => mintCall({ mint: mintNum })}>
+              <a className="btn btn-success btn-outline-light ml-1 mr-1" onClick={() => mintCall({ eventID : eventID, mint: mintNum })}>
                 General
               </a>
             </Link>
             <Link href="">
-              <a className="btn btn-info btn-outline-light" onClick={() => mintCall({ mint: mintNum })}>
+              <a className="btn btn-info btn-outline-light" onClick={() => mintCall2({ eventID : eventID, mint: mintNum })}>
                 Ring Side 
               </a>
             </Link>
@@ -204,9 +213,7 @@ const MintPage = () => {
                   {(currentUseState.isPublicMintIsOpen) ?
                     <>
                       <br />
-                      <p className="connected" style={{ backgroundColor: "RGB(0,0,0,0.5)", padding: "5px" }}>
-                        {dappParams.mintType} Mint Cost : <strong>{newValue} ETH</strong>
-                        <br />
+                      <p className="connected" style={{ backgroundColor: "RGB(0,0,0,0.5)", padding: "5px" }}>                       
                         Wallet address: <strong>{currentUseState.xmPower.filteredAddress}</strong>
                         <br />
                         Eth Balance : <strong>{currentUseState.xmPower.theBalance}</strong>

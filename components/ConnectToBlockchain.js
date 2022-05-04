@@ -90,12 +90,9 @@ export default function ConnectToBlockchain(e) {
         balance2 = web3.utils.fromWei(balance2, "ether");
         const filtered = connectedWalletAddress.substr(0, 6) + "..." + connectedWalletAddress.substr(connectedWalletAddress.length - 6);
 
-        let isThisAddressOnWhitelist = await CheckIfOnWhitelist(props.mintType, connectedWalletAddress);
-
         setTokenBalance({
-            trueBalance: balance2, theBalance: balance2, connectedWalletAddress: connectedWalletAddress, filteredAddress: filtered,
-            isWhiteListed: isThisAddressOnWhitelist
-        });        
+            trueBalance: balance2, theBalance: balance2, connectedWalletAddress: connectedWalletAddress, filteredAddress: filtered
+        });
     }
 
     async function GetBalance() {
@@ -210,20 +207,11 @@ export default function ConnectToBlockchain(e) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    async function sendMint(props) {
-
-        if (process.env.debug) {
-            console.log(props);
-        }
-
+    async function generalAdmissionMint(props) {
         let GeneralAdmissionEth = 0;
 
-        if (props.mintType == "Public") {
-            GeneralAdmissionEth = +process.env.GeneralAdmissionEth;
-        }
-        else {
-            GeneralAdmissionEth = +process.env.RingSideEth;
-        }
+        GeneralAdmissionEth = +process.env.GeneralAdmissionEth;
+
         const TotalTokens = Math.round((GeneralAdmissionEth * props.mint) * 10000) / 10000
 
         let currentGasPrice = await web3.eth.getGasPrice()
@@ -244,30 +232,78 @@ export default function ConnectToBlockchain(e) {
         setIsWaiting(true)
         setErrorMessage("");
 
-        if (props.mintType == "Public") {
-            let txTransfer = await contract.methods
-                .openMonsterMint(props.mint)
-                .send({ from: connectedWalletAddress, value: bntokens })
-                .on('transactionHash', function (hash) {
-                    //hashArray = [];
+        let txTransfer = await contract.methods
+            .generalAdmissionMint(props.eventID, props.mint)
+            .send({ from: connectedWalletAddress, value: bntokens })
+            .on('transactionHash', function (hash) {
+                //hashArray = [];
 
-                    hashArray.push({ id: 1, txHash: hash, filteredTxHash: hash.substr(0, 10) + "..." + hash.substr(hash.length - 10) });
-                    setTxs(hashArray);
-                    sethashTx(GetHashes(txs));
-                    //console.log(hash);
-                })
-                .then(function (result) {
-                    setIsWaiting(false);
-                    //alert('Transaction success');
-                    getBlockChainData(props);
-                }).catch(function (e) {
-                    setIsWaiting(false);
-                    setErrorMessage(e.message);
-                    console.log(e);
-                    getBlockChainData(props);
-                });
+                hashArray.push({ id: 1, txHash: hash, filteredTxHash: hash.substr(0, 10) + "..." + hash.substr(hash.length - 10) });
+                setTxs(hashArray);
+                sethashTx(GetHashes(txs));
+                //console.log(hash);
+            })
+            .then(function (result) {
+                setIsWaiting(false);
+                //alert('Transaction success');
+                getBlockChainData(props);
+            }).catch(function (e) {
+                setIsWaiting(false);
+                setErrorMessage(e.message);
+                console.log(e);
+                getBlockChainData(props);
+            });
+
+        return {};
+    }
+
+    async function ringSideMint(props) {
+        let RingSideEth = 0;
+
+        RingSideEth = +process.env.RingSideEth;
+
+        const TotalTokens = Math.round((RingSideEth * props.mint) * 10000) / 10000
+
+        let currentGasPrice = await web3.eth.getGasPrice()
+
+        if (process.env.debug) {
+            console.log(`currentGasPrice: ${currentGasPrice}`)
         }
-        
+
+        let gas_price = process.env.defaultGas;//Web3.fromWei(currentGasPrice, 'gwei') 
+
+        if (process.env.debug) {
+            console.log(`gas_price: ${gas_price}`)
+        }
+
+        var tokens = web3.utils.toWei(TotalTokens.toString(), 'ether')
+        var bntokens = web3.utils.toBN(tokens)
+        contract = new web3.eth.Contract(contractABI, tokenAddress, { from: connectedWalletAddress, gas: process.env.defaultGas * props.mint });
+        setIsWaiting(true)
+        setErrorMessage("");
+
+        let txTransfer = await contract.methods
+            .RingSideMint(props.eventID, props.mint)
+            .send({ from: connectedWalletAddress, value: bntokens })
+            .on('transactionHash', function (hash) {
+                //hashArray = [];
+
+                hashArray.push({ id: 1, txHash: hash, filteredTxHash: hash.substr(0, 10) + "..." + hash.substr(hash.length - 10) });
+                setTxs(hashArray);
+                sethashTx(GetHashes(txs));
+                //console.log(hash);
+            })
+            .then(function (result) {
+                setIsWaiting(false);
+                //alert('Transaction success');
+                getBlockChainData(props);
+            }).catch(function (e) {
+                setIsWaiting(false);
+                setErrorMessage(e.message);
+                console.log(e);
+                getBlockChainData(props);
+            });
+
         return {};
     }
 
@@ -408,7 +444,7 @@ export default function ConnectToBlockchain(e) {
         contract = new web3.eth.Contract(contractABI, tokenAddress, { from: connectedWalletAddress, gas: 50000 });
 
         let thisResult = await contract.methods.getEvents().call();
-        setThisContractData({ events : thisResult });
+        setThisContractData({ events: thisResult });
 
         return thisResult;
     }
@@ -510,9 +546,14 @@ export default function ConnectToBlockchain(e) {
                 setThisContractData
             }
         },
-        sendMint: function (props) {
+        generalAdmissionMint: function (props) {
             const thisP = props;
-            sendMint(props)
+            generalAdmissionMint(props)
+            return false;
+        },
+        ringSideMint: function (props) {
+            const thisP = props;
+            ringSideMint(props)
             return false;
         },
         togglePublicMint: function (props) {
