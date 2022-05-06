@@ -7,7 +7,7 @@ module.exports = {
     siteTitle: "The John Harding Jr Ticket Dapp",
     contractAddress: "0x65A12bc5cF30365DfEe396B50027FE0cAFDcd4FF",
     infuraID: "045e9c65387a4200aa8559c347fa19a4",
-    defaultGas: 150000,//75000,
+    defaultGas: 300000,//75000,
     mintType : "Pre-Sale", //Pre-Sale Public
     enforceWhitelist : true,
     GeneralAdmissionEth : "0.0",
