@@ -189,12 +189,12 @@ const AdminComponents = () => {
               <Col lg="12" md="12" className="align-self-center">
                 {(currentUseState.network == "rinkeby") ? <h3 style={{ color: "#fff" }}>DEMO ONLY RINKEBY</h3> : ""}
                 <h3 className="title">
-                  A blockchain project built by Community.
-                </h3>
-                <h4 className="subtitle font-light">
-                  An original collection consisting of 3,333 unique Monsters living on the Ethereum blockchain
-                  <br />
-                </h4>
+                    {process.env.mintPageTitle}
+                  </h3>
+                  <h4 className="subtitle font-light">
+                    {process.env.mintPageDescription}
+                    <br />
+                  </h4>
                 <a
                   onClick={() => walletBridge1.showWeb3Modal()}
                   className="btn btn-success m-r-20 btn-md m-t-30 " style={{ backgroundColor: "#C2C2C2" }}

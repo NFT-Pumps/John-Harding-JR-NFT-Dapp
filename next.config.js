@@ -17,6 +17,8 @@ module.exports = {
     chainId: 1,
     //mintType: "Whitelist",
     blockExplorerURL: 'https://etherscan.io/',
+    mintPageTitle: 'NFT Tickets to John Harding JR Boxing.',
+    mintPageDescription: 'Exclusive NFT Tickets to Boxing Events.',
     www: 'https://testnets.opensea.io/collection/john-harding-jr-nft',
     mainWWW: 'https://testnets.opensea.io/collection/john-harding-jr-nft',
     title: 'John Hardy Jr',

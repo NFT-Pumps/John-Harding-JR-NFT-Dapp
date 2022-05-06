@@ -101,33 +101,35 @@ const MintPage = () => {
 
       console.log(currentUseState.thisContractData.events);
       for (let element of currentUseState.thisContractData.events) {
-        const row = (
-          <tr key={element.eventID}>
-            <td key={1}>{element.title} (
-            {new Date(element.startMint * 1000).toLocaleDateString("en-US")} - 
-            {new Date(element.endMint * 1000).toLocaleDateString("en-US")})</td>
-            <td key={4}>
-              {element.noOfGeneralMints - element.generalMinted} Tickets Left
-              <br></br>
-              Cost : <strong>{process.env.GeneralAdmissionEth} ETH</strong>
-            </td>
-            <td key={5}>
-              {element.noOfRingSideMints - element.ringsideMinted} Tickets Left
-              <br></br>
-              Cost : <strong>{process.env.RingSideEth} ETH</strong>
-            </td>
-            <td key={5}>
-              {getMintControls(element.eventID, decNum, mintNum, handleChange, incNum, generalAdmissionMint, ringSideMint)}
-            </td>
-          </tr>
-        );
-        itemRows.push(row);
+        if (element.state == true) {
+          const row = (
+            <tr key={element.eventID}>
+              <td key={1}>{element.title} (
+                {new Date(element.startMint * 1000).toLocaleDateString("en-US")} -
+                {new Date(element.endMint * 1000).toLocaleDateString("en-US")})</td>
+              <td key={4}>
+                {element.noOfGeneralMints - element.generalMinted} Tickets Left
+                <br></br>
+                Cost : <strong>{process.env.GeneralAdmissionEth} ETH</strong>
+              </td>
+              <td key={5}>
+                {element.noOfRingSideMints - element.ringsideMinted} Tickets Left
+                <br></br>
+                Cost : <strong>{process.env.RingSideEth} ETH</strong>
+              </td>
+              <td key={5}>
+                {getMintControls(element.eventID, decNum, mintNum, handleChange, incNum, generalAdmissionMint, ringSideMint)}
+              </td>
+            </tr>
+          );
+          itemRows.push(row);
+        }
       }
     }
     return (<table className="table table-dark table-bordered">
       <thead>
         <tr>
-          <th>Event</th>        
+          <th>Event</th>
           <th>General Admission</th>
           <th>Ring Side</th>
           <th>Mint NFT Ticket</th>
@@ -183,10 +185,10 @@ const MintPage = () => {
                 <Col lg="6" md="6" className="align-self-center">
                   {(process.env.network == "rinkeby") ? <h3 style={{ color: "#fff" }}>DEMO ONLY RINKEBY</h3> : ""}
                   <h3 className="title">
-                    NFT Tickets to John Harding JR Boxing.
+                    {process.env.mintPageTitle}
                   </h3>
                   <h4 className="subtitle font-light">
-                    Exclusive NFT Tickets to Boxing Events.
+                  {process.env.mintPageDescription}
                     <br />
                   </h4>
                   <a
