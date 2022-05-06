@@ -188,7 +188,7 @@ const MintPage = () => {
                     {process.env.mintPageTitle}
                   </h3>
                   <h4 className="subtitle font-light">
-                  {process.env.mintPageDescription}
+                    {process.env.mintPageDescription}
                     <br />
                   </h4>
                   <a
