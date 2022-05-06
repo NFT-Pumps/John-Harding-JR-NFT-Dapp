@@ -10,8 +10,8 @@ module.exports = {
     defaultGas: 150000,//75000,
     mintType : "Pre-Sale", //Pre-Sale Public
     enforceWhitelist : true,
-    GeneralAdmissionEth : "0.055",
-    RingSideEth : "0.075",
+    GeneralAdmissionEth : "0.069",
+    RingSideEth : "0.092",
     debug: false,
     network: 'rinkeby',
     chainId: 1,
