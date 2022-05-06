@@ -11,7 +11,7 @@ module.exports = {
     mintType : "Pre-Sale", //Pre-Sale Public
     enforceWhitelist : true,
     GeneralAdmissionEth : "0.0",
-    RingSideEth : "0.0",
+    RingSideEth : "0.092",
     debug: false,
     network: 'ethereum',
     chainId: 1,
