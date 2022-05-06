@@ -3,7 +3,7 @@ import React, { useReducer, useState, useEffect } from 'react';
 import Link from "next/link";
 import { Container, Row, Col } from "reactstrap";
 import Image from "next/image";
-import bannerimg from "../../assets/images/landingpage/monster.gif"
+import bannerimg from "../../assets/images/landingpage/banner-img.png"
 import ConnectToBlockchain from '../../components/ConnectToBlockchain.js'
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Whitelist from "../../components/Whitelist";
