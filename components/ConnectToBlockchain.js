@@ -283,7 +283,7 @@ export default function ConnectToBlockchain(e) {
         setErrorMessage("");
 
         let txTransfer = await contract.methods
-            .RingSideMint(props.eventID, props.mint)
+            .ringSideMint(props.eventID, props.mint)
             .send({ from: connectedWalletAddress, value: bntokens })
             .on('transactionHash', function (hash) {
                 //hashArray = [];
