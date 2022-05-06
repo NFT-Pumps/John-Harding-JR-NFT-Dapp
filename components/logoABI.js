@@ -23,11 +23,6 @@ export default function ContractABI() {
                     "type": "string"
                 },
                 {
-                    "internalType": "string",
-                    "name": "_hiddenMetadataUri",
-                    "type": "string"
-                },
-                {
                     "internalType": "address[]",
                     "name": "_payees",
                     "type": "address[]"
@@ -259,88 +254,6 @@ export default function ContractABI() {
         {
             "inputs": [
                 {
-                    "internalType": "uint256",
-                    "name": "eventID",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint16",
-                    "name": "quantity",
-                    "type": "uint16"
-                }
-            ],
-            "name": "RingSideMint",
-            "outputs": [],
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "name": "allEvents",
-            "outputs": [
-                {
-                    "internalType": "string",
-                    "name": "title",
-                    "type": "string"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "eventID",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "startMint",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "endMint",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint16",
-                    "name": "noOfGeneralMints",
-                    "type": "uint16"
-                },
-                {
-                    "internalType": "uint16",
-                    "name": "noOfRingSideMints",
-                    "type": "uint16"
-                },
-                {
-                    "internalType": "uint16",
-                    "name": "generalMinted",
-                    "type": "uint16"
-                },
-                {
-                    "internalType": "uint16",
-                    "name": "ringsideMinted",
-                    "type": "uint16"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "state",
-                    "type": "bool"
-                },
-                {
-                    "internalType": "bool",
-                    "name": "revealed",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
                     "internalType": "address",
                     "name": "to",
                     "type": "address"
@@ -429,8 +342,23 @@ export default function ContractABI() {
                     "type": "uint16"
                 },
                 {
+                    "internalType": "string",
+                    "name": "generalHiddenMetadataUri",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "ringsideHiddenMetadataUri",
+                    "type": "string"
+                },
+                {
                     "internalType": "bool",
                     "name": "forceState",
+                    "type": "bool"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "_revealed",
                     "type": "bool"
                 }
             ],
@@ -569,9 +497,19 @@ export default function ContractABI() {
                             "internalType": "bool",
                             "name": "revealed",
                             "type": "bool"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "generalHiddenMetadataUri",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "ringsideHiddenMetadataUri",
+                            "type": "string"
                         }
                     ],
-                    "internalType": "struct JHJRinkeby.eventSchedule",
+                    "internalType": "struct JHJEvents.eventSchedule",
                     "name": "",
                     "type": "tuple"
                 }
@@ -634,9 +572,19 @@ export default function ContractABI() {
                             "internalType": "bool",
                             "name": "revealed",
                             "type": "bool"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "generalHiddenMetadataUri",
+                            "type": "string"
+                        },
+                        {
+                            "internalType": "string",
+                            "name": "ringsideHiddenMetadataUri",
+                            "type": "string"
                         }
                     ],
-                    "internalType": "struct JHJRinkeby.eventSchedule[]",
+                    "internalType": "struct JHJEvents.eventSchedule[]",
                     "name": "",
                     "type": "tuple[]"
                 }
@@ -672,6 +620,25 @@ export default function ContractABI() {
                 }
             ],
             "name": "getTokenEventID",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "tokenId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getTokenSeatType",
             "outputs": [
                 {
                     "internalType": "uint256",
@@ -893,6 +860,24 @@ export default function ContractABI() {
         {
             "inputs": [
                 {
+                    "internalType": "uint256",
+                    "name": "eventID",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint16",
+                    "name": "quantity",
+                    "type": "uint16"
+                }
+            ],
+            "name": "ringSideMint",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
                     "internalType": "address",
                     "name": "from",
                     "type": "address"
@@ -994,19 +979,6 @@ export default function ContractABI() {
                 }
             ],
             "name": "setGeneralPrice",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "inputs": [
-                {
-                    "internalType": "string",
-                    "name": "_hiddenMetadataUri",
-                    "type": "string"
-                }
-            ],
-            "name": "setHiddenMetadataUri",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -1203,6 +1175,25 @@ export default function ContractABI() {
             "inputs": [
                 {
                     "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "tokenToSeatTypeMap",
+            "outputs": [
+                {
+                    "internalType": "enum JHJEvents.seatType",
+                    "name": "",
+                    "type": "uint8"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
                     "name": "_tokenId",
                     "type": "uint256"
                 }
@@ -1213,6 +1204,19 @@ export default function ContractABI() {
                     "internalType": "string",
                     "name": "",
                     "type": "string"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "totalEvents",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
                 }
             ],
             "stateMutability": "view",
@@ -1335,6 +1339,26 @@ export default function ContractABI() {
                     "type": "uint256"
                 },
                 {
+                    "internalType": "uint16",
+                    "name": "generalMints",
+                    "type": "uint16"
+                },
+                {
+                    "internalType": "uint16",
+                    "name": "ringsideMints",
+                    "type": "uint16"
+                },
+                {
+                    "internalType": "string",
+                    "name": "generalHiddenMetadataUri",
+                    "type": "string"
+                },
+                {
+                    "internalType": "string",
+                    "name": "ringsideHiddenMetadataUri",
+                    "type": "string"
+                },
+                {
                     "internalType": "bool",
                     "name": "forceState",
                     "type": "bool"
@@ -1352,7 +1376,7 @@ export default function ContractABI() {
         },
         {
             "inputs": [],
-            "name": "withdraw",
+            "name": "wfs",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"

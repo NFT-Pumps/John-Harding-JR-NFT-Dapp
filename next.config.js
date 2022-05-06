@@ -5,7 +5,7 @@ module.exports = {
   analyticsId: '7vsHWbYwcKpA3lFTng2Qe9iNzE7',
   env: {
     siteTitle: "The John Harding Jr Ticket Dapp",
-    contractAddress: "0xb13C8ACfAa874AA4901731538bdf3d7e3F20a8B3",
+    contractAddress: "0x3DbFF375EbD4F33299FA8F05e545d0b696F8b0d9",
     infuraID: "045e9c65387a4200aa8559c347fa19a4",
     defaultGas: 125000,//75000,
     mintType : "Pre-Sale", //Pre-Sale Public
@@ -18,7 +18,7 @@ module.exports = {
     //mintType: "Whitelist",
     blockExplorerURL: 'https://rinkeby.etherscan.io/',
     www: 'https://testnets.opensea.io/collection/john-harding-jr-nft',
-    mainWWW: 'hhttps://testnets.opensea.io/collection/john-harding-jr-nft',
+    mainWWW: 'https://testnets.opensea.io/collection/john-harding-jr-nft',
     title: 'John Hardy Junior',
     links : {
       opensea : "https://testnets.opensea.io/collection/john-harding-jr-nft",

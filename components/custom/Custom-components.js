@@ -1,7 +1,7 @@
 import React from "react";
 
 // core components
-import MintPage from "../banner/MintPage";
+import MintPage from "../main/MintPage";
 
 // sections for this page
 import HeaderComponent from "./sections/headercomponent";

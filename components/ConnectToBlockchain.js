@@ -313,8 +313,6 @@ export default function ConnectToBlockchain(e) {
             console.log(Amount);
         }
 
-        //const TotalTokens = 0.075 * Amount;
-
         contract = new web3.eth.Contract(contractABI, tokenAddress, { from: connectedWalletAddress, gas: 50000 });
         setIsWaiting(true)
         setErrorMessage("");
@@ -333,6 +331,7 @@ export default function ConnectToBlockchain(e) {
             .then(function (result) {
                 setIsWaiting(false);
                 //alert('Transaction success');
+                getPublicMintStatus();
             }).catch(function (e) {
                 setIsWaiting(false)
                 setErrorMessage(e.message)
@@ -342,46 +341,46 @@ export default function ConnectToBlockchain(e) {
         return {};
     }
 
-    async function togglePresaleMint() {
+
+    async function createEvent(props) {
 
         if (process.env.debug) {
             console.log(Amount);
         }
 
-        //const TotalTokens = 0.075 * Amount;
-
-        contract = new web3.eth.Contract(contractABI, tokenAddress, { from: connectedWalletAddress, gas: 50000 });
+        contract = new web3.eth.Contract(contractABI, tokenAddress, { from: connectedWalletAddress, gas: 450000 });
         setIsWaiting(true)
         setErrorMessage("");
 
-        // const estimation = await erc20.contract.methods.togglePresaleMint();
+        let txTransfer = await contract.methods
+            .createAdmissionEvent(props.title, 
+                props.openMintDate, 
+                props.closedMintDate,
+                props.generalMints,
+                props.ringsideMints,
+                props.generalHiddenMetadataUri,
+                props.ringsideHiddenMetadataUri,
+                props.forceState,
+                props._revealed
+            )
+            .send({ from: connectedWalletAddress })
+            .on('transactionHash', function (hash) {
+                //hashArray = [];
 
-        // console.log(estimation);
-        try {
-            let txTransfer = await contract.methods
-                .togglePresaleMint()
-                .send({ from: connectedWalletAddress })
-                .on('transactionHash', function (hash) {
-                    //hashArray = [];
-
-                    hashArray.push({ id: 1, txHash: hash, filteredTxHash: hash.substr(0, 10) + "..." + hash.substr(hash.length - 10) });
-                    setTxs(hashArray);
-                    sethashTx(GetHashes(txs));
-                    //console.log(hash);
-                })
-                .then(function (result) {
-                    setIsWaiting(false);
-                    alert('Transaction success');
-                }).catch(function (e) {
-                    alert('Transaction Failed');
-                    setIsWaiting(false)
-                    setErrorMessage(e.message)
-                    console.log(e)
-                });
-        } catch (error) {
-
-        }
-
+                hashArray.push({ id: 1, txHash: hash, filteredTxHash: hash.substr(0, 10) + "..." + hash.substr(hash.length - 10) });
+                setTxs(hashArray);
+                sethashTx(GetHashes(txs));
+                //console.log(hash);
+            })
+            .then(function (result) {
+                setIsWaiting(false);
+                //alert('Transaction success');
+                getPublicMintStatus();
+            }).catch(function (e) {
+                setIsWaiting(false)
+                setErrorMessage(e.message)
+                console.log(e)
+            });
 
         return {};
     }
@@ -398,9 +397,6 @@ export default function ConnectToBlockchain(e) {
         setIsWaiting(true)
         setErrorMessage("");
 
-        // const estimation = await erc20.contract.methods.togglePresaleMint();
-
-        // console.log(estimation);
         try {
             let txTransfer = await contract.methods
                 .setRevealed(props.revealed)
@@ -429,11 +425,11 @@ export default function ConnectToBlockchain(e) {
         return {};
     }
 
-    async function getRevealed() {
+    async function getRevealed(props) {
 
         contract = new web3.eth.Contract(contractABI, tokenAddress, { from: connectedWalletAddress, gas: 50000 });
 
-        let thisResult = await contract.methods.revealed().call();
+        let thisResult = await contract.methods.revealed(props.eventID).call();
         setIsRevealed(thisResult);
 
         return thisResult;
@@ -441,7 +437,7 @@ export default function ConnectToBlockchain(e) {
 
     async function getEvents() {
 
-        contract = new web3.eth.Contract(contractABI, tokenAddress, { from: connectedWalletAddress, gas: 50000 });
+        contract = new web3.eth.Contract(contractABI, tokenAddress, { from: connectedWalletAddress, gas: 120000 });
 
         let thisResult = await contract.methods.getEvents().call();
         setThisContractData({ events: thisResult });
@@ -455,16 +451,6 @@ export default function ConnectToBlockchain(e) {
 
         let thisResult = await contract.methods.publicMintIsOpen().call();
         setIsPublicMintIsOpen(thisResult);
-
-        return thisResult;
-    }
-
-    async function getPrivateMintStatus() {
-
-        contract = new web3.eth.Contract(contractABI, tokenAddress, { from: connectedWalletAddress, gas: 50000 });
-
-        let thisResult = await contract.methods.privateMintIsOpen().call();
-        setIsPrivateMintIsOpen(thisResult);
 
         return thisResult;
     }
@@ -561,13 +547,13 @@ export default function ConnectToBlockchain(e) {
 
             return false;
         },
-        togglePresaleMint: function (props) {
-            togglePresaleMint(props)
+        createEvent: function (props) {
+            createEvent(props)
 
             return false;
         },
         getRevealed: function (props) {
-            return getRevealed();
+            return getRevealed(props);
         },
         setRevealed: function (props) {
             return setRevealed(props);
